@@ -22,7 +22,7 @@
 
 // This value is automatically updated by 'make bump'.
 // We currently only support binding to an exact version of libyamlstar:
-#define YAMLSTAR_VERSION "0.1.18"
+#define YAMLSTAR_VERSION "0.1.19"
 
 #ifdef _WIN32
 #define LIBYAMLSTAR_NAME "libyamlstar.dll"
@@ -34,7 +34,7 @@
 
 typedef int (*create_isolate_fn)(void *, void **, void **);
 typedef int (*tear_down_isolate_fn)(void *);
-typedef char *(*yamlstar_load_fn)(void *, const char *);
+typedef char *(*yamlstar_load_fn)(void *, const char *, const char *);
 
 static void *libyamlstar = NULL;
 static create_isolate_fn create_isolate;
@@ -154,7 +154,7 @@ SEXP C_yamlstar_load(SEXP input) {
   }
 
   json = yamlstar_load(
-    thread, CHAR(STRING_ELT(input, 0)));
+    thread, CHAR(STRING_ELT(input, 0)), "{}");
 
   result = Rf_mkString(json == NULL ? "" : json);
 
